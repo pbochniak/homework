@@ -1,4 +1,4 @@
-module pbochniak/course
+module github.com/pbochniak/course
 
 go 1.16
 
