@@ -1,5 +1,7 @@
-package solution
+package ls_0
+
+import "github.com/kyokomi/emoji"
 
 func GetMessage() string {
-	return ""
+	return emoji.Sprint("Hello from :poland:!")
 }
