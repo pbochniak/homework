@@ -1,13 +1,9 @@
 package slices
 
+import "sort"
+
 func SortStringsInPlace(strings []string) {
-	for i := 0; i < len(strings); i++ {
-		for j := i + 1; j < len(strings); j++ {
-			if strings[i] > strings[j] {
-				strings[i], strings[j] = strings[j], strings[i]
-			}
-		}
-	}
+	sort.Strings(strings)
 }
 
 func SortStringsPure(strings []string) []string {
@@ -22,44 +18,43 @@ type User struct {
 	LastName  string
 }
 
-func (that User) Compare(another User) int {
-	if that.FirstName > another.FirstName {
-		return 1
+// to implement sort.Interface
+type UserSlice []User
+
+func (users UserSlice) Len() int {
+	return len(users)
+}
+
+func (users UserSlice) Less(i, j int) bool {
+	if users[i].FirstName > users[j].FirstName {
+		return false
 	}
-	if that.FirstName < another.FirstName {
-		return -1
+	if users[i].FirstName < users[j].FirstName {
+		return true
 	}
-	if that.LastName > another.LastName {
-		return 1
+	if users[i].LastName > users[j].LastName {
+		return false
 	}
-	if that.LastName < another.LastName {
-		return -1
+	if users[i].LastName < users[j].LastName {
+		return true
 	}
-	return 0
+	return false
+}
+
+func (users UserSlice) Swap(i, j int) {
+	users[i], users[j] = users[j], users[i]
 }
 
 func SortUsersPure(users []User) []User {
 	temp_users := make([]User, len(users))
 	copy(temp_users, users)
-	for i := 0; i < len(temp_users); i++ {
-		for j := i + 1; j < len(temp_users); j++ {
-			if temp_users[i].Compare(temp_users[j]) > 0 {
-				temp_users[i], temp_users[j] = temp_users[j], temp_users[i]
-			}
-		}
-	}
+	sort.Sort(UserSlice(temp_users))
 	return temp_users
 }
 
 func SortUsersPureDesc(users []User) []User {
 	temp_users := make([]User, len(users))
 	copy(temp_users, users)
-	for i := 0; i < len(temp_users); i++ {
-		for j := i + 1; j < len(temp_users); j++ {
-			if temp_users[i].Compare(temp_users[j]) < 0 {
-				temp_users[i], temp_users[j] = temp_users[j], temp_users[i]
-			}
-		}
-	}
+	sort.Sort(sort.Reverse(UserSlice(temp_users)))
 	return temp_users
 }
