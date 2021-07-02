@@ -18,43 +18,32 @@ type User struct {
 	LastName  string
 }
 
-// to implement sort.Interface
-type UserSlice []User
-
-func (users UserSlice) Len() int {
-	return len(users)
-}
-
-func (users UserSlice) Less(i, j int) bool {
-	if users[i].FirstName > users[j].FirstName {
+func compareUsers(u1, u2 User) bool {
+	if u1.FirstName > u2.FirstName {
 		return false
 	}
-	if users[i].FirstName < users[j].FirstName {
+	if u1.FirstName < u2.FirstName {
 		return true
 	}
-	if users[i].LastName > users[j].LastName {
+	if u1.LastName > u2.LastName {
 		return false
 	}
-	if users[i].LastName < users[j].LastName {
+	if u1.LastName < u2.LastName {
 		return true
 	}
 	return false
 }
 
-func (users UserSlice) Swap(i, j int) {
-	users[i], users[j] = users[j], users[i]
-}
-
 func SortUsersPure(users []User) []User {
-	temp_users := make([]User, len(users))
-	copy(temp_users, users)
-	sort.Sort(UserSlice(temp_users))
-	return temp_users
+	tempUsers := make([]User, len(users))
+	copy(tempUsers, users)
+	sort.Slice(tempUsers, func(i, j int) bool { return compareUsers(tempUsers[i], tempUsers[j]) })
+	return tempUsers
 }
 
 func SortUsersPureDesc(users []User) []User {
-	temp_users := make([]User, len(users))
-	copy(temp_users, users)
-	sort.Sort(sort.Reverse(UserSlice(temp_users)))
-	return temp_users
+	tempUsers := make([]User, len(users))
+	copy(tempUsers, users)
+	sort.Slice(tempUsers, func(i, j int) bool { return !compareUsers(tempUsers[i], tempUsers[j]) })
+	return tempUsers
 }
