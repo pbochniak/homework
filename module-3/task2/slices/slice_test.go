@@ -16,8 +16,13 @@ func TestSortStringsPure(t *testing.T) {
 	}
 
 	for i, tt := range tests {
+		before := reflect.DeepEqual(tt.expected, tt.in)
 		if got := SortStringsPure(tt.in); !reflect.DeepEqual(tt.expected, got) {
 			t.Errorf("Unexpected result in Test #%d, expected %+v, got %+v", i, tt.expected, got)
+		}
+		after := reflect.DeepEqual(tt.expected, tt.in)
+		if !before && after {
+			t.Errorf("Unexpected result in Test #%d, pure sorting change order in input data.", i)
 		}
 	}
 }
@@ -62,8 +67,13 @@ func TestSortUsersPure(t *testing.T) {
 	}
 
 	for i, tt := range tests {
+		before := reflect.DeepEqual(tt.expected, tt.in)
 		if got := SortUsersPure(tt.in); !reflect.DeepEqual(tt.expected, got) {
 			t.Errorf("Unexpected result in Test #%d, expected %+v, got %+v", i, tt.expected, got)
+		}
+		after := reflect.DeepEqual(tt.expected, tt.in)
+		if !before && after {
+			t.Errorf("Unexpected result in Test #%d, pure sorting change order in input data.", i)
 		}
 	}
 }
@@ -90,8 +100,13 @@ func TestSortUsersPureDesc(t *testing.T) {
 	}
 
 	for i, tt := range tests {
+		before := reflect.DeepEqual(tt.expected, tt.in)
 		if got := SortUsersPureDesc(tt.in); !reflect.DeepEqual(tt.expected, got) {
 			t.Errorf("Unexpected result in Test #%d, expected %+v, got %+v", i, tt.expected, got)
+		}
+		after := reflect.DeepEqual(tt.expected, tt.in)
+		if !before && after {
+			t.Errorf("Unexpected result in Test #%d, pure sorting change order in input data.", i)
 		}
 	}
 
